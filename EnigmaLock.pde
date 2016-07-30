@@ -13,31 +13,18 @@ import android.view.MotionEvent;
 import ketai.ui.*;
 
 
-enum eType
-{
-  Egg,
-  Denden,
-  Taiko,
-  Dog,
-  Eye,
-  Mike
-}
-
-
 // Phone
 KetaiGesture gesture;
 float Size = 100;
 
 // Enigma
 EnigmaMng enigma;
-PImage img;
 
 void setup()
 {
   size(displayWidth, displayHeight);
 //  minim = new Minim(this);
 //  se_renda = minim.loadFile("");
-  img = loadImage("taiko.png");
   gesture = new KetaiGesture(this);
   enigma = new EnigmaMng();
   
@@ -48,6 +35,15 @@ void setup()
 void Initialize()
 {
   enigma.Start(eType.Egg);
+  float rnd = random(0, 6);
+  println(rnd);
+
+  if(0 <= rnd && 1 > rnd)  enigma.Start(eType.Egg);
+  if(1 <= rnd && 2 > rnd)  enigma.Start(eType.Denden);
+  if(2 <= rnd && 3 > rnd)  enigma.Start(eType.Taiko);
+  if(3 <= rnd && 4 > rnd)  enigma.Start(eType.Dog);
+  if(4 <= rnd && 5 > rnd)  enigma.Start(eType.Eye);
+  if(5 <= rnd && 6 > rnd)  enigma.Start(eType.Mike);
 }
 
 
@@ -79,7 +75,32 @@ void onPinch(float x, float y, float d)
 
 void onTap(float x, float y)
 {
-  println("tapped" + " " + x);
+  float rnd = random(0, 6);
+  println(rnd);
+
+  if(0 <= rnd && 1 > rnd)  enigma.Change(eType.Egg);
+  if(1 <= rnd && 2 > rnd)  enigma.Change(eType.Denden);
+  if(2 <= rnd && 3 > rnd)  enigma.Change(eType.Taiko);
+  if(3 <= rnd && 4 > rnd)  enigma.Change(eType.Dog);
+  if(4 <= rnd && 5 > rnd)  enigma.Change(eType.Eye);
+  if(5 <= rnd && 6 > rnd)  enigma.Change(eType.Mike);
+  
+  
+  switch(enigma.type)
+  {
+    case Egg:
+      break;
+    case Denden:
+      break;
+    case Taiko:
+      break;
+    case Dog:
+      break;
+    case Eye:
+      break;
+    case Mike:
+      break;
+  }
 }
 
 
