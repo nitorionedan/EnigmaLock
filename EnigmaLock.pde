@@ -15,18 +15,26 @@ import ketai.ui.*;
 
 // Phone
 KetaiGesture gesture;
+KetaiSensor sensor;
 float Size = 100;
 
 // Enigma
 EnigmaMng enigma;
+float fingerX, fingerY;
+
 
 void setup()
 {
   size(displayWidth, displayHeight);
-//  minim = new Minim(this);
-//  se_renda = minim.loadFile("");
   gesture = new KetaiGesture(this);
+  sensor = new KetaiSensor(this);
   enigma = new EnigmaMng();
+  
+  sensor.start();
+  sensor.enableAccelerometer();
+  sensor.enableGyroscope();
+  sensor.enableOrientation();
+  sensor.enableLight();
   
   Initialize();
 }
@@ -34,16 +42,17 @@ void setup()
 
 void Initialize()
 {
-  enigma.Start(eType.Egg);
-  float rnd = random(0, 6);
-  println(rnd);
+  //float rnd = random(0, 6);
+  //println(rnd);
 
-  if(0 <= rnd && 1 > rnd)  enigma.Start(eType.Egg);
-  if(1 <= rnd && 2 > rnd)  enigma.Start(eType.Denden);
-  if(2 <= rnd && 3 > rnd)  enigma.Start(eType.Taiko);
-  if(3 <= rnd && 4 > rnd)  enigma.Start(eType.Dog);
-  if(4 <= rnd && 5 > rnd)  enigma.Start(eType.Eye);
-  if(5 <= rnd && 6 > rnd)  enigma.Start(eType.Mike);
+  //if(0 <= rnd && 1 > rnd)  enigma.Start(eType.Egg);
+  //if(1 <= rnd && 2 > rnd)  enigma.Start(eType.Denden);
+  //if(2 <= rnd && 3 > rnd)  enigma.Start(eType.Taiko);
+  //if(3 <= rnd && 4 > rnd)  enigma.Start(eType.Dog);
+  //if(4 <= rnd && 5 > rnd)  enigma.Start(eType.Eye);
+  //if(5 <= rnd && 6 > rnd)  enigma.Start(eType.Mike);
+  
+  enigma.Start(eType.Taiko);
 }
 
 
@@ -55,52 +64,47 @@ void stop()
 
 void draw()
 {
+  // reset
+  fingerX = 0f;
+  fingerY = 0f;
+  
   // Clear
   background(128);
   
   // Main
   enigma.Update();
   enigma.Draw();
-
-  // TEST
-//  image(img, 0, 0, displayWidth, displayHeight);
 }
 
 
 void onPinch(float x, float y, float d)
 {
-  Size = constrain(Size+d, 10, 2000);
+//  Size = constrain(Size + d, 10, 2000);  
 }
 
 
 void onTap(float x, float y)
-{
-  float rnd = random(0, 6);
-  println(rnd);
+{ 
+  if(y > 697 && y < 907)  enigma.Action(eType.Taiko);
+}
 
-  if(0 <= rnd && 1 > rnd)  enigma.Change(eType.Egg);
-  if(1 <= rnd && 2 > rnd)  enigma.Change(eType.Denden);
-  if(2 <= rnd && 3 > rnd)  enigma.Change(eType.Taiko);
-  if(3 <= rnd && 4 > rnd)  enigma.Change(eType.Dog);
-  if(4 <= rnd && 5 > rnd)  enigma.Change(eType.Eye);
-  if(5 <= rnd && 6 > rnd)  enigma.Change(eType.Mike);
+
+int count = 0;
+void onAccelerometerEvent(float x, float y, float z)
+{
+  float AX = abs(x);
+  float AY = abs(y);
+  float AZ = abs(z);
   
+  final boolean isShake = (AX > 15f || AY > 15f || AZ > 15f);
   
-  switch(enigma.type)
-  {
-    case Egg:
-      break;
-    case Denden:
-      break;
-    case Taiko:
-      break;
-    case Dog:
-      break;
-    case Eye:
-      break;
-    case Mike:
-      break;
-  }
+  if(isShake)  enigma.Action(eType.Denden);
+}
+
+
+void onGyroscopeEvent(float x, float y, float z)
+{
+//  println("(" + x + ", " + y + ", " + z + ")");
 }
 
 
