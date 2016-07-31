@@ -16,6 +16,7 @@ import ketai.ui.*;
 // Phone
 KetaiGesture gesture;
 KetaiSensor sensor;
+KetaiAudioInput mic;
 float Size = 100;
 
 // Enigma
@@ -28,13 +29,18 @@ void setup()
   size(displayWidth, displayHeight);
   gesture = new KetaiGesture(this);
   sensor = new KetaiSensor(this);
+  mic = new KetaiAudioInput(this);
   enigma = new EnigmaMng();
   
-  sensor.start();
   sensor.enableAccelerometer();
   sensor.enableGyroscope();
   sensor.enableOrientation();
   sensor.enableLight();
+  sensor.start();
+  mic.start();
+  
+  fill(0);
+  textSize(80);
   
   Initialize();
 }
@@ -52,12 +58,13 @@ void Initialize()
   //if(4 <= rnd && 5 > rnd)  enigma.Start(eType.Eye);
   //if(5 <= rnd && 6 > rnd)  enigma.Start(eType.Mike);
   
-  enigma.Start(eType.Taiko);
+  enigma.Start(eType.Dog);
 }
 
 
 void stop()
 {
+  mic.stop();
   println("stopped");
 }
 
@@ -68,7 +75,7 @@ void draw()
   fingerX = 0f;
   fingerY = 0f;
   
-  // Clear
+  // clear
   background(128);
   
   // Main
@@ -105,6 +112,13 @@ void onAccelerometerEvent(float x, float y, float z)
 void onGyroscopeEvent(float x, float y, float z)
 {
 //  println("(" + x + ", " + y + ", " + z + ")");
+}
+
+int c = 0;
+void onAudioEvent(short[] _data)
+{
+  c++;
+  println(c + ": ok");
 }
 
 
