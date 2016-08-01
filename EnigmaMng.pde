@@ -11,9 +11,9 @@ enum eType
 
 class EnigmaMng
 {
-  final int LimitTime = 1800; // the limit time is about 30 sec
+  final int LimitTime = 600; // the limit time is about 20 sec
   
-  /*these are medias*/
+  /* these are medias */
   PImage g_denden,
          g_egg00,
          g_egg01,
@@ -25,6 +25,7 @@ class EnigmaMng
          g_eye00,
          g_eye01,
          g_dog;
+         
   /* now enigma type */
   eType type;
   
@@ -87,7 +88,7 @@ class EnigmaMng
      switch(this.type)
      {
      case Egg:
-       if(c_warm > 180)
+       if(c_warm > 0)
        {
          exit();
        }
@@ -102,10 +103,7 @@ class EnigmaMng
        break;
        
      case Dog:
-       if(c_stroke > 180)
-       {
-         exit();
-       }
+       if(c_stroke > 14)  exit();
        break;
      
      case Eye:
@@ -130,21 +128,22 @@ class EnigmaMng
   {
     switch(this.type)
     {
-    case Egg:    
-      image(g_egg00, 0, 0, displayWidth, displayHeight);
-      text("warm", 70, 100);
+    case Egg:
+      if(isAction)  image(g_egg01, 0, 0, displayWidth, displayHeight);
+      else          image(g_egg00, 0, 0, displayWidth, displayHeight);
+      //text("warm", 70, 100);
       break;
     
     case Denden:
       image(g_denden, 0, 0, displayWidth, displayHeight);
-      text("slop", 70, 100);
+      //text("slop", 70, 100);
       break;
     
     case Taiko:
       if(c_tap == 0)
       {
         image(g_taikoN, 0, 0, displayWidth, displayHeight);
-        text("太鼓をたたくドン", 70, 100);
+        //text("太鼓をたたくドン", 70, 100);
       }
       else
       {
@@ -155,13 +154,13 @@ class EnigmaMng
     
     case Dog:
       image(g_dog, 0, 0, displayWidth, displayHeight);
-      text("stroke", 70, 100);
+      //text("stroke", 70, 100);
       break;
     
     case Eye:
       if(isAction)  image(g_eye01, 0, 0, displayWidth, displayHeight);
       else          image(g_eye00, 0, 0, displayWidth, displayHeight);
-      text("isDark", 70, 100);
+      //text("isDark", 70, 100);
       break;
     
     case Mike:
